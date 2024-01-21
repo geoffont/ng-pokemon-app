@@ -1,21 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { PokemonService } from '../pokemon.service';
-import { Pokemon } from '../pokemon';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { Pokemon } from "../pokemon";
+import { PokemonService } from "../pokemon.service";
 
 @Component({
-  selector: 'app-pokemon-form',
-  templateUrl: './pokemon-form.component.html',
-  styleUrls: ['./pokemon-form.component.css']
+  selector: "app-pokemon-form",
+  templateUrl: "./pokemon-form.component.html",
+  styleUrls: ["./pokemon-form.component.css"],
 })
 export class PokemonFormComponent implements OnInit {
   @Input() pokemon: Pokemon;
   types: string[];
 
-  constructor(
-    private pokemonService: PokemonService,
-    private router: Router
-  ) { }
+  constructor(private pokemonService: PokemonService, private router: Router) {}
 
   ngOnInit() {
     this.types = this.pokemonService.getPokemonTypeList();
@@ -37,7 +34,6 @@ export class PokemonFormComponent implements OnInit {
   }
 
   isTypesValid(type: string): boolean {
-
     if (this.pokemon.types.length == 1 && this.hasType(type)) {
       return false;
     }
@@ -48,8 +44,7 @@ export class PokemonFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Submit form');
-    this.router.navigate(['/pokemons', this.pokemon.id])
+    console.log("Submit form");
+    this.router.navigate(["/pokemons", this.pokemon.id]);
   }
-
 }
