@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
 
 import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
@@ -9,7 +10,7 @@ import { PokemonModule } from "./pokemon/pokemon.module";
 
 @NgModule({
   declarations: [AppComponent, PageNotFoundComponent],
-  imports: [BrowserModule, FormsModule, PokemonModule, AppRoutingModule],
+  imports: [BrowserModule, HttpClientModule, FormsModule, PokemonModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })
