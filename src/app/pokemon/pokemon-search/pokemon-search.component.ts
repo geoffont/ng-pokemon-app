@@ -13,50 +13,54 @@ import { Pokemon } from '../pokemon';
           <div class="card-panel">
             <h4 class="center">Ajouter un Pokémon depuis PokeAPI</h4>
             
-            <div class="input-field">
-              <input 
-                type="text" 
-                id="search" 
+            <div class="input-field" style="margin-top: 30px;">
+              <label for="search" class="active">Rechercher un Pokémon</label>
+              <input
+                type="text"
+                id="search"
                 [(ngModel)]="searchTerm"
                 (input)="onSearchChange()"
                 placeholder="Tapez le nom d'un Pokémon (ex: pikachu, charizard...)"
                 class="validate">
-              <label for="search">Rechercher un Pokémon</label>
             </div>
 
             <!-- Suggestions de recherche -->
-            <div *ngIf="suggestions.length > 0" class="collection">
-              <a *ngFor="let suggestion of suggestions" 
+            <div *ngIf="suggestions.length > 0" class="collection" style="margin-top: 10px; max-height: 300px; overflow-y: auto;">
+              <a *ngFor="let suggestion of suggestions"
                  (click)="selectPokemon(suggestion)"
-                 class="collection-item waves-effect">
+                 class="collection-item waves-effect"
+                 style="cursor: pointer;">
                 {{ suggestion }}
               </a>
             </div>
 
             <!-- Pokemon trouvé -->
-            <div *ngIf="foundPokemon" class="card horizontal">
-              <div class="card-image">
-                <img [src]="foundPokemon.picture" [alt]="foundPokemon.name" style="max-width: 200px;">
+            <div *ngIf="foundPokemon" class="card horizontal" style="margin-top: 20px;">
+              <div class="card-image" style="display: flex; align-items: center; justify-content: center; padding: 20px; background-color: #f5f5f5;">
+                <img [src]="foundPokemon.picture" [alt]="foundPokemon.name" style="max-width: 200px; height: auto;">
               </div>
               <div class="card-stacked">
                 <div class="card-content">
-                  <h5>{{ foundPokemon.name }}</h5>
-                  <p><strong>HP:</strong> {{ foundPokemon.hp }}</p>
-                  <p><strong>CP:</strong> {{ foundPokemon.cp }}</p>
-                  <p><strong>Types:</strong> 
-                    <span *ngFor="let type of foundPokemon.types" 
-                          class="{{ type | pokemonTypeColor }}">
+                  <h5 style="margin-top: 0; text-transform: capitalize;">{{ foundPokemon.name }}</h5>
+                  <p style="margin: 8px 0;"><strong>HP:</strong> {{ foundPokemon.hp }}</p>
+                  <p style="margin: 8px 0;"><strong>CP:</strong> {{ foundPokemon.cp }}</p>
+                  <p style="margin: 8px 0;">
+                    <strong>Types:</strong><br>
+                    <span *ngFor="let type of foundPokemon.types"
+                          class="{{ type | pokemonTypeColor }}"
+                          style="display: inline-block; margin: 4px 4px 4px 0; padding: 4px 12px; border-radius: 4px; color: white; font-size: 12px;">
                       {{ type }}
                     </span>
                   </p>
                 </div>
                 <div class="card-action">
-                  <button (click)="addPokemon()" 
+                  <button (click)="addPokemon()"
                           class="waves-effect waves-light btn green"
-                          [disabled]="isAdding">
+                          [disabled]="isAdding"
+                          style="margin-right: 10px;">
                     {{ isAdding ? 'Ajout en cours...' : 'Ajouter ce Pokémon' }}
                   </button>
-                  <button (click)="clearSearch()" 
+                  <button (click)="clearSearch()"
                           class="waves-effect waves-light btn grey">
                     Annuler
                   </button>
@@ -65,7 +69,7 @@ import { Pokemon } from '../pokemon';
             </div>
 
             <!-- Loading -->
-            <div *ngIf="isLoading" class="center">
+            <div *ngIf="isLoading" class="center" style="margin-top: 30px; padding: 20px;">
               <div class="preloader-wrapper small active">
                 <div class="spinner-layer spinner-green-only">
                   <div class="circle-clipper left">
@@ -79,12 +83,12 @@ import { Pokemon } from '../pokemon';
                   </div>
                 </div>
               </div>
-              <p>Recherche en cours...</p>
+              <p style="margin-top: 15px;">Recherche en cours...</p>
             </div>
 
             <!-- Message d'erreur -->
-            <div *ngIf="errorMessage" class="card-panel red lighten-4">
-              <span class="red-text">{{ errorMessage }}</span>
+            <div *ngIf="errorMessage" class="card-panel red lighten-4" style="margin-top: 20px;">
+              <span class="red-text text-darken-2"><strong>⚠️ Erreur:</strong> {{ errorMessage }}</span>
             </div>
 
             <!-- Retour -->

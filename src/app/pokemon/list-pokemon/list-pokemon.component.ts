@@ -19,4 +19,15 @@ export class ListPokemonComponent implements OnInit {
   goToPokemon(pokemon: Pokemon) {
     this.router.navigate(["/pokemons", pokemon.id]);
   }
+
+  resetPokemonList() {
+    const confirmed = confirm(
+      'Êtes-vous sûr de vouloir réinitialiser la liste des Pokémon ? Tous les Pokémon ajoutés et modifications seront perdus.'
+    );
+
+    if (confirmed) {
+      this.pokemonService.resetToDefault();
+      this.pokemonList = this.pokemonService.getPokemonList();
+    }
+  }
 }
