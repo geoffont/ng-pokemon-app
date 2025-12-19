@@ -11,8 +11,13 @@ import { PokemonTypeColorPipe } from "./pokemon-type-color.pipe";
 import { PokemonService } from "./pokemon.service";
 import { AddPokemonComponent } from "./add-pokemon/add-pokemon.component";
 import { PokemonSearchComponent } from "./pokemon-search/pokemon-search.component";
+import { BattleSelectionComponent } from "./battle-selection/battle-selection.component";
+import { BattleArenaComponent } from "./battle-arena/battle-arena.component";
+import { BattleService } from "./battle.service";
 
 const pokemonRoutes: Routes = [
+  { path: "battle/selection", component: BattleSelectionComponent },
+  { path: "battle/arena", component: BattleArenaComponent },
   { path: "pokemons/search", component: PokemonSearchComponent },
   { path: "pokemons/add", component: AddPokemonComponent },
   { path: "pokemons/edit/:id", component: EditPokemonComponent },
@@ -30,8 +35,10 @@ const pokemonRoutes: Routes = [
     EditPokemonComponent,
     AddPokemonComponent,
     PokemonSearchComponent,
+    BattleSelectionComponent,
+    BattleArenaComponent,
   ],
   imports: [CommonModule, FormsModule, RouterModule.forChild(pokemonRoutes)],
-  providers: [PokemonService],
+  providers: [PokemonService, BattleService],
 })
 export class PokemonModule {}

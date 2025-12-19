@@ -1,0 +1,131 @@
+.battle-arena {
+  margin-bottom: 30px;
+}
+
+.hp-container {
+  margin: 15px 0;
+}
+
+.hp-text {
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.progress {
+  height: 20px;
+  margin-bottom: 10px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress .determinate {
+  transition: width 0.5s ease, background-color 0.3s ease;
+  height: 100%;
+}
+
+.history-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.history-container .collection {
+  margin: 0;
+  border: none;
+}
+
+.history-container .collection-item {
+  padding: 10px 15px;
+}
+
+.damage-text {
+  font-weight: bold;
+  font-size: 15px;
+  color: #d32f2f;
+}
+
+.stats-container {
+  padding: 10px 0;
+}
+
+.stats-container p {
+  margin: 8px 0;
+}
+
+/* Animations */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.card-content img:hover {
+  animation: shake 0.3s ease;
+}
+
+/* HP Bar Colors */
+.progress .green {
+  background-color: #4caf50 !important;
+}
+
+.progress .yellow.darken-2 {
+  background-color: #f9a825 !important;
+}
+
+.progress .red {
+  background-color: #f44336 !important;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 600px) {
+  .battle-arena .card-content img {
+    max-width: 120px !important;
+    max-height: 120px !important;
+  }
+
+  .history-container {
+    max-height: 300px;
+  }
+
+  .hp-text {
+    font-size: 14px;
+  }
+}
+
+/* Battle Complete Overlay */
+.card-panel h4 {
+  margin: 10px 0;
+}
+
+/* Smooth Transitions */
+.card {
+  transition: transform 0.2s ease;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Scrollbar Styling */
+.history-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.history-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.history-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

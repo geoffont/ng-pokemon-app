@@ -1,0 +1,102 @@
+<div class="container">
+  <h3 class="center-align">Sélection de Combat</h3>
+
+  <div class="row" style="margin-top: 30px;">
+    <!-- Pokémon 1 Selection -->
+    <div class="col s12 m6">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Pokémon 1</span>
+          <div class="input-field">
+            <select class="browser-default" (change)="onPokemon1Change($event)">
+              <option value="" disabled selected>Choisir un Pokémon</option>
+              <option *ngFor="let pokemon of pokemonList" [value]="pokemon.id">
+                {{ pokemon.name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Preview Card -->
+          <div *ngIf="selectedPokemon1" class="center-align" style="margin-top: 20px;">
+            <img [src]="selectedPokemon1.picture" [alt]="selectedPokemon1.name" style="max-width: 150px;">
+            <h5>{{ selectedPokemon1.name }}</h5>
+            <p>
+              <strong>HP:</strong> {{ selectedPokemon1.hp }} |
+              <strong>CP:</strong> {{ selectedPokemon1.cp }}
+            </p>
+            <div>
+              <span *ngFor="let type of selectedPokemon1.types"
+                    [class]="type | pokemonTypeColor"
+                    style="margin: 2px;">
+                {{ type }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pokémon 2 Selection -->
+    <div class="col s12 m6">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Pokémon 2</span>
+          <div class="input-field">
+            <select class="browser-default" (change)="onPokemon2Change($event)">
+              <option value="" disabled selected>Choisir un Pokémon</option>
+              <option *ngFor="let pokemon of pokemonList" [value]="pokemon.id">
+                {{ pokemon.name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Preview Card -->
+          <div *ngIf="selectedPokemon2" class="center-align" style="margin-top: 20px;">
+            <img [src]="selectedPokemon2.picture" [alt]="selectedPokemon2.name" style="max-width: 150px;">
+            <h5>{{ selectedPokemon2.name }}</h5>
+            <p>
+              <strong>HP:</strong> {{ selectedPokemon2.hp }} |
+              <strong>CP:</strong> {{ selectedPokemon2.cp }}
+            </p>
+            <div>
+              <span *ngFor="let type of selectedPokemon2.types"
+                    [class]="type | pokemonTypeColor"
+                    style="margin: 2px;">
+                {{ type }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="row">
+    <div class="col s12 center-align">
+      <button
+        class="btn waves-effect waves-light green"
+        [disabled]="!isValidSelection()"
+        (click)="startBattle()"
+        style="margin-right: 10px;">
+        Commencer le Combat
+      </button>
+      <button
+        class="btn waves-effect waves-light grey"
+        (click)="goBack()">
+        Retour
+      </button>
+    </div>
+  </div>
+
+  <!-- Validation Message -->
+  <div class="row" *ngIf="selectedPokemon1Id === selectedPokemon2Id && selectedPokemon1Id !== null">
+    <div class="col s12">
+      <div class="card-panel red lighten-4 center-align">
+        <span class="red-text text-darken-2">
+          Vous devez sélectionner deux Pokémon différents !
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

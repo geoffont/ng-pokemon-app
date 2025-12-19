@@ -1,0 +1,213 @@
+<div class="container" *ngIf="battleState">
+  <h3 class="center-align">Combat Pokémon</h3>
+
+  <!-- Battle Arena - Pokemon Display -->
+  <div class="row battle-arena" style="margin-top: 30px;">
+    <!-- Pokemon 1 -->
+    <div class="col s12 m6">
+      <div class="card blue lighten-5">
+        <div class="card-content center-align">
+          <img [src]="battleState.pokemon1.pokemon.picture"
+               [alt]="battleState.pokemon1.pokemon.name"
+               style="max-width: 180px; max-height: 180px;">
+          <h5>{{ battleState.pokemon1.pokemon.name }}</h5>
+
+          <!-- Types -->
+          <div style="margin: 10px 0;">
+            <span *ngFor="let type of battleState.pokemon1.pokemon.types"
+                  [class]="type | pokemonTypeColor"
+                  style="margin: 2px;">
+              {{ type }}
+            </span>
+          </div>
+
+          <!-- HP Bar -->
+          <div class="hp-container">
+            <p class="hp-text">
+              HP: {{ battleState.pokemon1.currentHp }} / {{ battleState.pokemon1.maxHp }}
+              ({{ getHpPercentage(1) | number:'1.0-0' }}%)
+            </p>
+            <div class="progress">
+              <div class="determinate"
+                   [class]="getHpBarColor(1)"
+                   [style.width.%]="getHpPercentage(1)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Attack Button -->
+          <button
+            class="btn waves-effect waves-light blue"
+            [disabled]="battleState.isComplete"
+            (click)="handleAttack(1)"
+            style="margin-top: 15px;">
+            {{ battleState.pokemon1.pokemon.name }} Attaque!
+          </button>
+
+          <!-- Defeated Badge -->
+          <div *ngIf="battleState.pokemon1.isDefeated" class="chip red white-text" style="margin-top: 10px;">
+            K.O.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pokemon 2 -->
+    <div class="col s12 m6">
+      <div class="card red lighten-5">
+        <div class="card-content center-align">
+          <img [src]="battleState.pokemon2.pokemon.picture"
+               [alt]="battleState.pokemon2.pokemon.name"
+               style="max-width: 180px; max-height: 180px;">
+          <h5>{{ battleState.pokemon2.pokemon.name }}</h5>
+
+          <!-- Types -->
+          <div style="margin: 10px 0;">
+            <span *ngFor="let type of battleState.pokemon2.pokemon.types"
+                  [class]="type | pokemonTypeColor"
+                  style="margin: 2px;">
+              {{ type }}
+            </span>
+          </div>
+
+          <!-- HP Bar -->
+          <div class="hp-container">
+            <p class="hp-text">
+              HP: {{ battleState.pokemon2.currentHp }} / {{ battleState.pokemon2.maxHp }}
+              ({{ getHpPercentage(2) | number:'1.0-0' }}%)
+            </p>
+            <div class="progress">
+              <div class="determinate"
+                   [class]="getHpBarColor(2)"
+                   [style.width.%]="getHpPercentage(2)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Attack Button -->
+          <button
+            class="btn waves-effect waves-light red"
+            [disabled]="battleState.isComplete"
+            (click)="handleAttack(2)"
+            style="margin-top: 15px;">
+            {{ battleState.pokemon2.pokemon.name }} Attaque!
+          </button>
+
+          <!-- Defeated Badge -->
+          <div *ngIf="battleState.pokemon2.isDefeated" class="chip red white-text" style="margin-top: 10px;">
+            K.O.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Battle History and Statistics -->
+  <div class="row">
+    <!-- History Log -->
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Historique du Combat</span>
+          <div #historyContainer class="history-container">
+            <ul class="collection">
+              <li *ngFor="let action of battleState.history; trackBy: trackByTurn"
+                  class="collection-item">
+                <div>
+                  <strong>Tour {{ action.turn }}:</strong>
+                  <span class="blue-text">{{ action.attackerName }}</span> attaque
+                  <span class="red-text">{{ action.defenderName }}</span>
+                  <br>
+                  <span class="damage-text">Dégâts: {{ action.damage }}</span>
+                  <span [class]="getEffectivenessClass(action.effectiveness)">
+                    ({{ getEffectivenessText(action.effectiveness) }})
+                  </span>
+                  <br>
+                  <small class="grey-text">
+                    HP restants: {{ action.attackerName }} ({{ action.attackerHpRemaining }})
+                    | {{ action.defenderName }} ({{ action.defenderHpRemaining }})
+                  </small>
+                </div>
+              </li>
+            </ul>
+            <div *ngIf="battleState.history.length === 0" class="center-align grey-text">
+              <p>Le combat n'a pas encore commencé. Cliquez sur un bouton d'attaque pour commencer!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Panel -->
+    <div class="col s12 m5">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Statistiques</span>
+          <div class="stats-container">
+            <p><strong>Tours:</strong> {{ battleState.currentTurn }}</p>
+            <p><strong>Actions:</strong> {{ battleState.history.length }}</p>
+
+            <div *ngIf="statistics">
+              <hr>
+              <p><strong>Dégâts totaux:</strong> {{ statistics.totalDamageDealt }}</p>
+              <p>
+                <span class="blue-text">{{ battleState.pokemon1.pokemon.name }}:</span>
+                {{ statistics.pokemon1TotalDamage }} dégâts
+              </p>
+              <p>
+                <span class="red-text">{{ battleState.pokemon2.pokemon.name }}:</span>
+                {{ statistics.pokemon2TotalDamage }} dégâts
+              </p>
+              <hr>
+              <p class="green-text text-darken-2">
+                <strong>Vainqueur: {{ statistics.winner }}</strong>
+              </p>
+            </div>
+
+            <div *ngIf="!statistics && battleState.history.length > 0">
+              <hr>
+              <p class="grey-text">Combat en cours...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Winner Announcement -->
+  <div class="row" *ngIf="battleState.isComplete && battleState.winner">
+    <div class="col s12">
+      <div class="card-panel green lighten-2 center-align">
+        <h4 class="white-text">
+          {{ battleState.winner.pokemon.name }} est victorieux!
+        </h4>
+        <img [src]="battleState.winner.pokemon.picture"
+             [alt]="battleState.winner.pokemon.name"
+             style="max-width: 200px; margin-top: 10px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="row">
+    <div class="col s12 center-align">
+      <button
+        class="btn waves-effect waves-light orange"
+        (click)="rematch()"
+        style="margin-right: 10px;">
+        Revanche
+      </button>
+      <button
+        class="btn waves-effect waves-light teal"
+        (click)="goBack()"
+        style="margin-right: 10px;">
+        Nouvelle Sélection
+      </button>
+      <button
+        class="btn waves-effect waves-light grey"
+        (click)="goToList()">
+        Retour à la Liste
+      </button>
+    </div>
+  </div>
+</div>
